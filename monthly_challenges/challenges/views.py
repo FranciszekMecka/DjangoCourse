@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.urls import reverse
+from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -21,9 +22,13 @@ months_dict = {
 
 
 def monthly_challenge(request, month):
-    try:
-        return HttpResponse(months_dict[month])
-    except:
+    # try:
+        challenge_text = months_dict[month]
+        return render(request, "challenges/challenge.html", {
+            "text": challenge_text,
+            "month": month
+        })
+    # except:
         return HttpResponseNotFound("This month is not supported!")
 
 
@@ -34,12 +39,12 @@ def monthly_challenge_by_number(request, month):
         redirect_path = reverse("month-challenge", args=[redirect_month])
         return HttpResponseRedirect(redirect_path)
     except:
-        return HttpResponseNotFound("This month is not supported!")
+        # this looks for 404.html file in templates folder
+        raise Http404()
 
 def index(request):
     months_keys = list(months_dict.keys())
     body = ""
-    for month in months_keys:
-        body += f"<li><a href=\"{reverse('month-challenge', args=[month])}\">{month}</a></li>"
-    body = f"<ul>{body}</ul>"
-    return HttpResponse(body)
+    return render(request, "challenges/index.html", {
+        "months": months_keys
+    })
