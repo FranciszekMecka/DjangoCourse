@@ -38,9 +38,8 @@ def monthly_challenge_by_number(request, month):
 
 def index(request):
     months_keys = list(months_dict.keys())
-    body = "<ul>"
+    body = ""
     for month in months_keys:
         body += f"<li><a href=\"{reverse('month-challenge', args=[month])}\">{month}</a></li>"
-    body += "</ul>"
-    print(body)
+    body = f"<ul>{body}</ul>"
     return HttpResponse(body)
