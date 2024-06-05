@@ -19,6 +19,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="BikeBuddy" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />
